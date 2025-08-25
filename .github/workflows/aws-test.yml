@@ -1,0 +1,19 @@
+name: AWS Test with Secrets
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  check-aws:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_SECRET_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region us-east-1
+
+      - name: List S3 buckets
+        run: aws s3 ls
+
